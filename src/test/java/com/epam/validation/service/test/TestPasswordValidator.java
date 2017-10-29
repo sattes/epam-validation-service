@@ -1,4 +1,4 @@
-package com.epam.validation.service;
+package com.epam.validation.service.test;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,26 +25,40 @@ public class TestPasswordValidator {
 	@Test
 	public void testSuccessPassword() {
 
-		Assert.assertTrue(validator.validatePassword("SUBBU123"));
+		Assert.assertTrue(validator.validatePassword("subsub123"));
+		
+	}
+	
+	@Test
+	public void testFailureForUppercase() {
+
+		Assert.assertFalse(validator.validatePassword("SUBBU123"));
+		
+	}
+	
+	@Test
+	public void testFailureForLowerAndUppercase() {
+
+		Assert.assertFalse(validator.validatePassword("SUbbu123"));
 		
 	}
 
 	@Test
-	public void testFailureNumeric() {
+	public void testFailureForNumeric() {
 		
 		// No numeric
 		Assert.assertFalse(validator.validatePassword("epamsystems"));
 	}
 
 	@Test
-	public void testFailureMinLength() {
+	public void testFailureForMinLength() {
 		
 		// Min Length
 		Assert.assertFalse(validator.validatePassword("epam"));
 	}
 	
 	@Test
-	public void testFailureMaxLength() {
+	public void testFailureForMaxLength() {
 		
 		// Max Length
 		Assert.assertFalse(validator.validatePassword("epamsytems1234"));
