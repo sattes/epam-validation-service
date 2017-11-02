@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.epam.validation.service.constants.EpamConstants;
 import com.epam.validation.service.response.ValidatorResponse;
 import com.epam.validation.service.validators.LengthValidator;
 
@@ -26,8 +27,8 @@ public class TestLengthValidator {
 	@Test
 	public void testSuccessPasswordLength() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setResponseCode("SUCCESS-001");
-		expectedResponse.setResponseMessage("Length validation is successs");
+		expectedResponse.setResponseCode(EpamConstants.SUCCESS_CODE_001);
+		expectedResponse.setResponseMessage(EpamConstants.SUCCESS_MESSAGE_001);
 		
 		ValidatorResponse actualResponse = validator.validateLength("subsub123");
 
@@ -40,8 +41,8 @@ public class TestLengthValidator {
 	public void testFailureForMinLength() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-001");
-		expectedResponse.setErrorMessage("Minimum length of the password should be 5 characters.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_001);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE1_001);
 		
 		ValidatorResponse actualResponse = validator.validateLength("sub1");
 
@@ -55,8 +56,8 @@ public class TestLengthValidator {
 	public void testFailureForMaxLength() {
 		
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-001");
-		expectedResponse.setErrorMessage("Maximum length of the password should be 12 characters.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_001);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE2_001);
 		
 		ValidatorResponse actualResponse = validator.validateLength("subbu12345678");
 

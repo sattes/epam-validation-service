@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.epam.validation.service.constants.EpamConstants;
 import com.epam.validation.service.response.ValidatorResponse;
 import com.epam.validation.service.validators.NumericValidator;
 
@@ -26,8 +27,8 @@ public class TestNumericValidator {
 	@Test
 	public void testSuccessForNumerics() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setResponseCode("SUCCESS-003");
-		expectedResponse.setResponseMessage("Numeric validation is successful.");
+		expectedResponse.setResponseCode(EpamConstants.SUCCESS_CODE_003);
+		expectedResponse.setResponseMessage(EpamConstants.SUCCESS_MESSAGE_003);
 		
 		ValidatorResponse actualResponse = validator.validateNumerics("subsub123");
 
@@ -40,8 +41,8 @@ public class TestNumericValidator {
 	public void testFailureForNumerics() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-003");
-		expectedResponse.setErrorMessage("Password should contain atleast one numeric.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_003);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE_003);
 		
 		ValidatorResponse actualResponse = validator.validateNumerics("subbusubbu");
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.epam.validation.service.constants.EpamConstants;
 import com.epam.validation.service.response.ValidatorResponse;
 import com.epam.validation.service.validators.LowerCaseValidator;
 
@@ -26,8 +27,8 @@ public class TestLowerCaseValidator {
 	@Test
 	public void testSuccessForLowerCase() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setResponseCode("SUCCESS-002");
-		expectedResponse.setResponseMessage("Lower case letter validation is successful.");
+		expectedResponse.setResponseCode(EpamConstants.SUCCESS_CODE_002);
+		expectedResponse.setResponseMessage(EpamConstants.SUCCESS_MESSAGE_002);
 		
 		ValidatorResponse actualResponse = validator.validateLowerCaseLetters("subsub123");
 
@@ -40,8 +41,8 @@ public class TestLowerCaseValidator {
 	public void testFailureForLowerCase() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-002");
-		expectedResponse.setErrorMessage("Password should contain atleast one lower case letter.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_002);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE_002);
 		
 		ValidatorResponse actualResponse = validator.validateLowerCaseLetters("SUBBU12");
 

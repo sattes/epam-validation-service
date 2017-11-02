@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.epam.validation.service.PasswordValidator;
+import com.epam.validation.service.constants.EpamConstants;
 import com.epam.validation.service.response.ValidatorResponse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,8 +27,8 @@ public class TestPasswordValidator {
 	@Test
 	public void testSuccessPassword() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setResponseCode("SUCCESS");
-		expectedResponse.setResponseMessage("All validations are passed.");
+		expectedResponse.setResponseCode(EpamConstants.SUCCESS_CODE);
+		expectedResponse.setResponseMessage(EpamConstants.SUCCESS_MESSAGE);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("subbu1234");
 
@@ -39,8 +40,8 @@ public class TestPasswordValidator {
 	@Test
 	public void testNullPassword() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-000");
-		expectedResponse.setErrorMessage("Password should not be null or empty.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE);
 		
 		ValidatorResponse actualResponse = validator.validatePassword(null);
 
@@ -52,8 +53,8 @@ public class TestPasswordValidator {
 	@Test
 	public void testEmptyPassword() {
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-000");
-		expectedResponse.setErrorMessage("Password should not be null or empty.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("");
 
@@ -66,8 +67,8 @@ public class TestPasswordValidator {
 	public void testFailureForMinLength() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-001");
-		expectedResponse.setErrorMessage("Minimum length of the password should be 5 characters.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_001);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE1_001);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("sub1");
 
@@ -81,8 +82,8 @@ public class TestPasswordValidator {
 	public void testFailureForMaxLength() {
 		
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-001");
-		expectedResponse.setErrorMessage("Maximum length of the password should be 12 characters.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_001);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE2_001);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("subbu12345678");
 
@@ -95,8 +96,8 @@ public class TestPasswordValidator {
 	public void testFailureForLowerCase() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-002");
-		expectedResponse.setErrorMessage("Password should contain atleast one lower case letter.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_002);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE_002);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("SUBBU12");
 
@@ -110,8 +111,8 @@ public class TestPasswordValidator {
 	public void testFailureForNumerics() {
 
 		ValidatorResponse expectedResponse = new ValidatorResponse();
-		expectedResponse.setErrorCode("E-003");
-		expectedResponse.setErrorMessage("Password should contain atleast one numeric.");
+		expectedResponse.setErrorCode(EpamConstants.ERROR_CODE_003);
+		expectedResponse.setErrorMessage(EpamConstants.ERROR_MESSAGE_003);
 		
 		ValidatorResponse actualResponse = validator.validatePassword("subbusubbu");
 
