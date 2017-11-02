@@ -1,11 +1,15 @@
 package com.epam.validation.service.impl;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.epam.validation.service.PasswordValidator;
+import com.epam.validation.service.constants.EpamConstants;
+import com.epam.validation.service.response.ValidatorResponse;
+import com.epam.validation.service.response.ValidatorResponseUtil;
+import com.epam.validation.service.validators.LengthValidator;
+import com.epam.validation.service.validators.LowerCaseValidator;
+import com.epam.validation.service.validators.NumericValidator;
 
 /**
  * Implementation class for validating the password
@@ -14,6 +18,18 @@ import com.epam.validation.service.PasswordValidator;
  */
 @Service
 public class PasswordValidatorImpl implements PasswordValidator {
+	
+	@Autowired
+	ValidatorResponseUtil responseUtil;
+	
+	@Autowired
+	LengthValidator lengthValidator;
+	
+	@Autowired
+	LowerCaseValidator lowerCaseValidator;
+	
+	@Autowired
+	NumericValidator numericValidator;
 
 	
 	private PasswordValidatorImpl() {
@@ -24,31 +40,29 @@ public class PasswordValidatorImpl implements PasswordValidator {
 	 * @param password Password string
 	 * @return Returns true if the password is valid or returns false if the password is not valid
 	 */
-	public boolean validatePassword(String password) {
-		String pattern = null;
+	public ValidatorResponse validatePassword(String password) {
 		
-		//For Lower case letters
-		StringBuilder patternBuilder = new StringBuilder("((?=.*^[a-z])");
-
-		//For numbers
-		patternBuilder.append("(?=.*[0-9])");
+		if(password == null || password.equals("")) {
+			return responseUtil.getValidatorResponse(EpamConstants.ERROR_CODE, EpamConstants.ERROR_MESSAGE, false);
+		} else {
+			ValidatorResponse lengthResponse = lengthValidator.validateLength(password);
+			if(lengthResponse.getResponseCode() != null && lengthResponse.getResponseCode().startsWith(EpamConstants.SUCCESS_CODE)) {
+				ValidatorResponse lowerCaseResponse = lowerCaseValidator.validateLowerCaseLetters(password);
+				if(lowerCaseResponse.getResponseCode() != null && lowerCaseResponse.getResponseCode().startsWith(EpamConstants.SUCCESS_CODE)) {
+					ValidatorResponse numericResponse = numericValidator.validateNumerics(password);
+					if(numericResponse.getResponseCode() != null && numericResponse.getResponseCode().startsWith(EpamConstants.SUCCESS_CODE)) {
+						return responseUtil.getValidatorResponse(EpamConstants.SUCCESS_CODE, EpamConstants.SUCCESS_MESSAGE, true);
+					} else {
+						return numericResponse;
+					}
+				} else {
+					return lowerCaseResponse;
+				}
+			} else {
+				return lengthResponse;
+			}
+		}
 		
-		int minLength = 5;
-		int maxLength = 12;
-
-		patternBuilder.append(".{" + minLength + "," + maxLength + "})");
-		pattern = patternBuilder.toString();
-		//pattern = "((?=.*[0-9])(?=.*^[a-z]).{5,12})";
-		//pattern = "(^(?=.*[0-9])(?=.*^[a-z]).{5,12}(?:([\\w\\d*?!:;])\1?(?!\1))$)";
-		
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(password);
-		boolean result = m.matches();
-		System.out.println("result = "+result);
-		
-		return result;
 	}
-	
-	
 
 }
